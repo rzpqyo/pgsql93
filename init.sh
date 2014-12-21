@@ -9,9 +9,11 @@ if [[ ! -f /var/lib/postgresql/9.3/main/PG_VERSION ]]; then
 
 	# service postgresql initdb
 	su - postgres -c "/usr/lib/postgresql/9.3/bin/initdb --encoding=UTF-8 --no-locale -D /var/lib/postgresql/9.3/main"
-	service postgresql start
+	# service postgresql start
+	su - postgres -c "/usr/lib/postgresql/9.3/bin/pg_ctl start -w -D /var/lib/postgresql/9.3/main/"
 	su - postgres -c "psql -w -c \"ALTER USER postgres encrypted password 'pas4pgsql'\""
-	service postgresql stop
+	# service postgresql stop
+	su - postgres -c "/usr/lib/postgresql/9.3/bin/pg_ctl stop"
 	cat <<EOF >>/var/lib/postgresql/9.3/main/postgresql.conf
 listen_addresses = '*'
 EOF
@@ -29,9 +31,10 @@ if [[ -f /var/lib/postgresql/postgresql.conf ]]; then
 	chown postgres:postgres /var/lib/postgresql/9.3/main/postgresql.conf
 fi
 
-service postgresql start
+# service postgresql start
+su - postgres -c "/usr/lib/postgresql/9.3/bin/pg_ctl start -w -D /var/lib/postgresql/9.3/main/"
 
-su - postgres -c "psql -f /usr/share/postgresql/9.3/contrib/textsearch_ja.sql -d testdb"
+# su - postgres -c "psql -f /usr/share/postgresql/9.3/contrib/textsearch_ja.sql -d testdb"
 
 while [[ true ]]; do
 	/bin/bash

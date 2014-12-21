@@ -59,8 +59,8 @@ RUN cd /usr/local/src/textsearch_ja-9.0.0 && \
 	make USE_PGXS=1 install
 RUN sed -i -e "s/LANGUAGE 'C'/LANGUAGE 'c'/" /usr/share/postgresql/9.3/contrib/textsearch_ja.sql
 
-ADD bashrc /var/lib/postgresql/.bashrc
-RUN chmod 600 /var/lib/postgresql/.bashrc && chown postgres:postgres /var/lib/postgresql/.bashrc
+ADD bash_profile /var/lib/postgresql/.bash_profile
+RUN chmod 600 /var/lib/postgresql/.bash_profile && chown postgres:postgres /var/lib/postgresql/.bash_profile
 ADD postgresql.conf /var/lib/postgresql/postgresql.conf
 RUN chmod 600 /var/lib/postgresql/postgresql.conf && chown postgres:postgres /var/lib/postgresql/postgresql.conf
 
